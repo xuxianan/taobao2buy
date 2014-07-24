@@ -1,53 +1,41 @@
 package com.miller.tb.common;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.lang.reflect.Method;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.util.EntityUtils;
 
 public class HttpRequestTool {
-
-
+	
 	/**
-	 * 请求页面
-	 * @param strUrl
-	 * @param strPostRequest
-	 * @param maxLength
-	 * @param code
+	 * Http请求
+	 * @param url
 	 * @return
+	 * @throws Exception
 	 */
-	public static String getPageContent(String strUrl, String strPostRequest, int maxLength, String code) {
-		// 读取结果网页
-		StringBuffer buffer = new StringBuffer();
-		HttpURLConnection connection = null;
-		try {
-			URL url = new URL(strUrl);
-			// 打开url连接
-			connection = (HttpURLConnection) url.openConnection();
-			// 设置url请求方式 ‘get’ 或者 ‘post’
-			connection.setRequestMethod(strPostRequest);
-			connection.setConnectTimeout(5000);
-			connection.setReadTimeout(5000);
-			// 发送
-			BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream(), code));
-			int ch;
-			for (int length = 0; (ch = in.read()) > -1 && (maxLength <= 0 || length < maxLength); length++) {
-				buffer.append((char) ch);
-				//System.out.print((char) ch);
-			}
-			in.close();
-			connection.disconnect();
-			return buffer.toString().trim();
-		} catch (Exception e) {
-			if(connection != null) {
-				connection.disconnect();
-			}
-			System.out.println(strUrl + "，" + e.getMessage());
-			return null;
-		}
+	public static String request(String url) throws Exception {
+		HttpParams httpParameters = new BasicHttpParams();
+		int timeoutConnection = 1000 * 10;
+		int timeoutSocket = 1000 * 60 * 10;
+		HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+		HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+		
+		DefaultHttpClient client = new DefaultHttpClient(httpParameters);
+		HttpPost post = new HttpPost(url);
+		
+		HttpResponse response = client.execute(post);
+		return EntityUtils.toString(response.getEntity());
 	}
 	
+	/**
+	 * 打开url
+	 * @param url
+	 */
 	public static void openURL(String url) {
 		try {
 			browse(url);

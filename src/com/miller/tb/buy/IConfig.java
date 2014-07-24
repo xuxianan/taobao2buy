@@ -16,22 +16,22 @@ public class IConfig {
 	static {
 		ITEM_MAP.put("忍龙", 80.0);
 		ITEM_MAP.put("神秘海域", 130.0);
-		ITEM_MAP.put("ace", 190.0);
-		ITEM_MAP.put("ACE", 190.0);
+		ITEM_MAP.put("ace", 180.0);
+		ITEM_MAP.put("ACE", 180.0);
 		ITEM_MAP.put("FIFA", 60.0);
 		ITEM_MAP.put("海贼", 130.0);
-		ITEM_MAP.put("极品", 90.0);
-		ITEM_MAP.put("裸卡", 100.0);
+		ITEM_MAP.put("极品", 80.0);
+		ITEM_MAP.put("裸卡", 85.0);
 		ITEM_MAP.put("打包", 300.0);
-		ITEM_MAP.put("13", 90.0);
-		ITEM_MAP.put("cod", 90.0);
-		ITEM_MAP.put("COD", 90.0);
-		ITEM_MAP.put("使命", 90.0);
+		ITEM_MAP.put("13", 70.0);
 		ITEM_MAP.put("杀戮", 150.0);
-		ITEM_MAP.put("闪之轨迹", 100.0);
-		ITEM_MAP.put("闪轨", 100.0);
-		ITEM_MAP.put("刀剑", 300.0);
-		ITEM_MAP.put("战神", 130.0);
+		ITEM_MAP.put("闪之轨迹", 120.0);
+		ITEM_MAP.put("闪轨", 120.0);
+		ITEM_MAP.put("战神", 120.0);
+		ITEM_MAP.put("合金装备", 110.0);
+		ITEM_MAP.put("ss", 80.0);
+		ITEM_MAP.put("ssd", 100.0);
+		ITEM_MAP.put("灵魂", 80.0);
 	}
 	
 }

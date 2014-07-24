@@ -39,7 +39,8 @@ public class Refresh {
 		while (true) {
 			Thread.sleep(IConfig.LAZY_TIME); step++;
 			System.out.println("总共请求次数为：" + step + "，已经成功刷到：" + IConfig.BLACK.size() + "件物品！");
-			parsing(HttpRequestTool.getPageContent(IConfig.REQUEST_URL, "GET", 100500, "GBK"));
+			// parsing(HttpRequestTool.getPageContent(IConfig.REQUEST_URL, "GET", 100500, "GBK"));
+			parsing(HttpRequestTool.request(IConfig.REQUEST_URL));
 			start(step);
 		}
 	}
@@ -48,26 +49,22 @@ public class Refresh {
 	 * 解析请求url对应的html得到item-info div
 	 * @param inputHtml
 	 */
-	private static void parsing(String inputHtml) {
+	private static void parsing(String inputHtml) throws Exception {
 		Set<String> urlLinkSet = new HashSet<String>();
-		try {
-			Parser parser = new Parser(inputHtml);
-			AndFilter filter1 = new AndFilter(new TagNameFilter("div"), new HasAttributeFilter("class", "item-info"));
-			NodeList nodes = parser.extractAllNodesThatMatch(filter1);
-			if (nodes != null) {
-				for (int i = 0; i < nodes.size(); i++) {
-					Div div = (Div) nodes.elementAt(i);
-					Double price = getPrice(div.getChildren());
-					getLinks(div.getChildren(), price, urlLinkSet);
-				}
+		Parser parser = new Parser(inputHtml);
+		AndFilter filter1 = new AndFilter(new TagNameFilter("div"), new HasAttributeFilter("class", "item-info"));
+		NodeList nodes = parser.extractAllNodesThatMatch(filter1);
+		if (nodes != null) {
+			for (int i = 0; i < nodes.size(); i++) {
+				Div div = (Div) nodes.elementAt(i);
+				Double price = getPrice(div.getChildren());
+				getLinks(div.getChildren(), price, urlLinkSet);
 			}
-			
-			for (String url : urlLinkSet) {
-				IConfig.BLACK.add(url);
-				HttpRequestTool.openURL(url);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		}
+		
+		for (String url : urlLinkSet) {
+			IConfig.BLACK.add(url);
+			HttpRequestTool.openURL(url);
 		}
 	}
 	
