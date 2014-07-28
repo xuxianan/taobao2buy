@@ -80,7 +80,14 @@ public class Refresh {
 				HeadingTag headingTag = (HeadingTag) childNode.elementAt(i);
 				LinkTag linkTag = (LinkTag) headingTag.getFirstChild();
 				for (String key : IConfig.ITEM_MAP.keySet()) {
-					if (linkTag.getLinkText().contains(key)) {
+					if (!key.contains("_")) 
+						continue;
+					
+					String has = key.split("_")[0];
+					String noHas = key.split("_")[1];
+					String urlLowerVal = linkTag.getLinkText().toLowerCase();
+					
+					if (urlLowerVal.contains(has) && !urlLowerVal.contains(noHas)) {
 						if (!IConfig.BLACK.contains(linkTag.getLink()) && price <= IConfig.ITEM_MAP.get(key)) {
 							urlLinkSet.add(linkTag.getLink());
 						}
